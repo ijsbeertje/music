@@ -6,7 +6,6 @@ from discord import *
 from discord.ext import commands
 from discord.ext.commands.context import Context
 
-token = "OTkwMTM0Mzc5NzI2NjQ3MzQ3.GNbn-Q.aasOLPZ29k8ogZjvsMkOqCv-ZF_kAJpWN5atkk"
 prefix = "?"
 blocked_words = ["blocked words are here"]
 
@@ -83,5 +82,16 @@ async def on_message(msg):
             except Exception as err:
                 print(err)
 
-
-client.run(token)
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+if __name__ == "__main__":
+    # Read the token from a file and strip newlines (Fixes issues when running the bot on linux)
+    try:
+        token = open(os.path.join(__location__, "token.txt"), "r").read().strip("\n")
+    except FileNotFoundError:
+        print("Please create a token.txt file and place your token in it!")
+        quit()
+    if token is None:
+        print("Please create a token.txt file and place your token in it!")
+        quit()
+    # Run the bot instance
+    client.run(token)
